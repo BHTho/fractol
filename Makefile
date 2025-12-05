@@ -1,6 +1,6 @@
 NAME = fractol
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -pthread
 COMPILER = cc -std=gnu11
 
 C_FILES = main.c \

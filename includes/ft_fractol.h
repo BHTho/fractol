@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:36:17 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/22 09:48:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2025/12/05 09:49:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <math.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include <pthread.h>
 # include "ft_printf.h"
 # define MAX_ITER 30
 # define WINWIDTH 1080
