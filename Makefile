@@ -1,7 +1,7 @@
 NAME = fractol
 
 CFLAGS = -Wall -Werror -Wextra
-COMPILER = cc
+COMPILER = cc -std=gnu11
 
 C_FILES = main.c \
 		  mlx_utils.c \
@@ -12,15 +12,19 @@ C_FILES = main.c \
 		  atof.c \
 		  help.c
 
-SRCDIR = srcs/
+SRCDIR = src/
 SRCS = $(addprefix $(SRCDIR), $(C_FILES))
 
 OBJDIR = obj/
 OBJS = $(addprefix $(OBJDIR), $(C_FILES:.c=.o))
 
-MLX_LIB = libmlx.a
-MLXDIR = minilibx-linux/
-MLX = $(MLXDIR)$(MLX_LIB)
+MLXFLAGS		= -L$(MLX_DIR) -I$(MLX_DIR) -lXext -lX11 -lmlx
+# MLX_LIB = libmlx.a
+# MLXDIR = minilibx-linux/
+# MLX = $(MLXDIR)$(MLX_LIB)
+MLX_ZIP = minilibx-linux.tgz
+MLX_DIR = minilibx-linux/
+MLX = $(MLX_DIR)libmlx.a
 
 PRINTF_LIB	= libftprintf.a
 PRINTF_DIR	= ./includes/ft_printf/
@@ -47,7 +51,12 @@ $(OBJDIR):
 
 $(MLX):
 	@echo "Making minilibx..."
-	@make -sC $(MLXDIR)
+# 	@make -sC $(MLXDIR)
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		tar -xzf $(MLX_ZIP); \
+	fi
+	mv minilibx-linux-master $(MLX_DIR); \
+	make CC=clang -sC $(MLX_DIR) 2>/dev/null;
 
 $(PRINTF):
 	@echo "Making printf..."
@@ -59,14 +68,14 @@ $(NAME): $(OBJS) $(MLX) $(PRINTF)
 clean:
 	@echo "Cleaning objects..."
 	@rm -rf $(OBJDIR)
-	@make clean -sC $(MLXDIR)
+	@rm -rf $(MLX_DIR)/obj
 	@make clean -sC $(PRINTF_DIR)
 
 fclean: clean
 	@echo "Removing fractol program..."
 	@rm -f $(NAME)
 	@make fclean -sC $(PRINTF_DIR)
-	@make clean -sC $(MLXDIR)
+	@rm -rf $(MLX_DIR)
 
 re: fclean all
 
